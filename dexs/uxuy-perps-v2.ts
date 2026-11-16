@@ -3,8 +3,8 @@ import { FetchOptions, SimpleAdapter } from '../adapters/types';
 import { CHAIN } from '../helpers/chains';
 import { httpGet } from '../utils/fetchURL';
 
-// Tracks perpetual trading through the UXUY interface, the sole entry point for this product.
-// UXUY operates the execution backend exclusively for its own interface; the API totals therefore cover UXUY activity.
+// Tracks UXUY Perps V2, whose self-operated execution backend serves only UXUY users.
+// The API totals cover this UXUY product; changing its listing category does not change the metric scope.
 // Matching is off-chain; these BSC custody contracts do not contain the trade ledger.
 // https://www.uxuy.com/liquidity-provider
 // Hot vault: 0x6008F2720fb9456dB6d9B5EEeEDBf88072adAb10
@@ -89,15 +89,15 @@ const adapter: SimpleAdapter = {
   start: '2026-07-07',
   fetch,
   methodology: {
-    Volume: 'Executed-order notional (executed price times executed quantity) for perpetual trades through the UXUY interface, attributed by order update time. Its execution backend serves only UXUY, so the API totals cover this interface\'s activity. USDT and UUSD use the product\'s 1:1 USD accounting convention. Excludes the earlier Hyperliquid builder-code activity listed separately as UXUY Perps.',
-    Fees: 'Opening and closing fees paid by users trading perpetuals through the UXUY interface, attributed by order update time and excluding extra liquidation fees. The execution backend serves only UXUY. USDT and UUSD use the product\'s 1:1 USD accounting convention.',
-    Revenue: 'Opening and closing fees from perpetual trades through the UXUY interface, retained by UXUY after actual referral commissions.',
-    SupplySideRevenue: 'Actual referral commissions allocated from opening and closing fees paid by perpetual traders through the UXUY interface.',
+    Volume: 'Executed-order notional (executed price times executed quantity) for UXUY Perps V2, attributed by order update time. UXUY operates the execution backend exclusively for its own users. USDT and UUSD use the product\'s 1:1 USD accounting convention. Excludes the earlier Hyperliquid builder-code activity listed separately as UXUY Perps.',
+    Fees: 'Opening and closing fees paid by UXUY Perps V2 users on UXUY\'s self-operated execution backend, attributed by order update time and excluding extra liquidation fees. USDT and UUSD use the product\'s 1:1 USD accounting convention.',
+    Revenue: 'Opening and closing fees from UXUY Perps V2 users, retained by UXUY after actual referral commissions.',
+    SupplySideRevenue: 'Actual referral commissions allocated from opening and closing fees paid by UXUY Perps V2 users.',
   },
   breakdownMethodology: {
-    Fees: { 'Open/Close Fees': 'Fees paid by UXUY interface users for opening and closing perpetual positions; extra liquidation fees are excluded.' },
-    Revenue: { 'Open/Close Fees To Protocol': 'Opening and closing fees from UXUY interface perpetual trades retained by UXUY after actual referral commissions.' },
-    SupplySideRevenue: { 'Open/Close Fees To Referrers': 'Actual commissions allocated to referrers from UXUY interface perpetual trading fees.' },
+    Fees: { 'Open/Close Fees': 'Fees paid by UXUY Perps V2 users for opening and closing positions; extra liquidation fees are excluded.' },
+    Revenue: { 'Open/Close Fees To Protocol': 'Opening and closing fees from UXUY Perps V2 users retained by UXUY after actual referral commissions.' },
+    SupplySideRevenue: { 'Open/Close Fees To Referrers': 'Actual commissions allocated to referrers from UXUY Perps V2 trading fees.' },
   },
 };
 

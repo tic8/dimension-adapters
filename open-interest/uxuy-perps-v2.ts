@@ -4,6 +4,8 @@ import { CHAIN } from '../helpers/chains';
 import { httpGet } from '../utils/fetchURL';
 import { amount, API, equal, HOUR } from '../dexs/uxuy-perps-v2';
 
+// Tracks positions for the UXUY interface, whose execution backend serves only UXUY.
+// Keep the published snapshot scope; this is not open interest from unrelated trading interfaces.
 const fetch = async (options: FetchOptions) => {
   const endMs = Math.round(options.endTimestamp / HOUR) * HOUR * 1000;
   const data = await httpGet(`${API}/open-interest/history?start_time_ms=${endMs}&end_time_ms=${endMs + HOUR * 1000}&limit=1`, { timeout: 30000 });
@@ -34,7 +36,7 @@ const adapter: SimpleAdapter = {
   start: '2026-10-26',
   fetch,
   methodology: {
-    OpenInterest: 'Total absolute position value, equal to long plus short USD value, from the published snapshot for the period-end UTC hour. Collection starts on the hour and completes later; this is an hourly observation. Missing hours are not replaced with stale latest values.',
+    OpenInterest: 'Total absolute position value for UXUY interface users within the published full_eoa_regular_accounts scope, equal to long plus short USD value at the period-end UTC hour. The execution backend serves only UXUY. Collection starts on the hour and completes later; this is an hourly observation. Missing hours are not replaced with stale latest values.',
   },
 };
 

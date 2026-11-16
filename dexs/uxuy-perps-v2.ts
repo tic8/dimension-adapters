@@ -3,8 +3,7 @@ import { FetchOptions, SimpleAdapter } from '../adapters/types';
 import { CHAIN } from '../helpers/chains';
 import { httpGet } from '../utils/fetchURL';
 
-// Tracks volume and trading fees for UXUY Perps V2, separately from the earlier Hyperliquid builder product.
-// The source is UXUY's self-operated venue: matching is off-chain, and these BSC custody contracts do not contain its trade ledger.
+// UXUY's self-operated venue matches off-chain; these BSC custody contracts do not contain its trade ledger.
 // https://www.uxuy.com/liquidity-provider
 // Hot vault: 0x6008F2720fb9456dB6d9B5EEeEDBf88072adAb10
 // Cold vault: 0x5BcF7Ec138e8944a6d143576139dBecDfc986051
@@ -88,8 +87,8 @@ const adapter: SimpleAdapter = {
   start: '2026-07-07',
   fetch,
   methodology: {
-    Volume: 'Executed-order notional (executed price times executed quantity) for UXUY Perps V2, sourced from UXUY\'s self-operated venue and attributed by order update time. USDT and UUSD use the venue\'s 1:1 USD accounting convention. Excludes UXUY\'s earlier Hyperliquid builder-code trading, which is listed separately as UXUY Perps.',
-    Fees: 'Opening and closing trading fees for UXUY Perps V2, sourced from UXUY\'s self-operated venue, excluding extra liquidation fees and attributed by order update time. USDT and UUSD use the venue\'s 1:1 USD accounting convention.',
+    Volume: 'Executed-order notional (executed price times executed quantity) on UXUY self-operated perps, attributed by order update time. USDT and UUSD use the venue\'s 1:1 USD accounting convention. Excludes UXUY\'s earlier Hyperliquid builder-code trading, which is listed separately as UXUY Perps.',
+    Fees: 'Opening and closing trading fees on UXUY self-operated perps, excluding extra liquidation fees, attributed by order update time. USDT and UUSD use the venue\'s 1:1 USD accounting convention.',
     Revenue: 'Opening and closing fees less actual referral commissions.',
     SupplySideRevenue: 'Actual referral commissions deducted from opening and closing fees.',
   },
